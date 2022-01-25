@@ -13,11 +13,13 @@ export default function BoxUser(props) {
           <p>{ props.subtitle }</p>
           <form>
             <input type="text" 
-              autoCorrect={false}
-              autoComplete={false}
+              autoCorrect="false"
+              autoComplete="false"
+              maxLength={20}
               autoFocus
               required
               value={username} 
+              placeholder='Usuário do Github'
               onChange={(e) => setUsername(e.target.value)}
             />
             <button>Entrar</button>          
@@ -27,12 +29,14 @@ export default function BoxUser(props) {
         <div className={styles.img_container}>
           <Image
             width={192} height={192} 
-            src={`https://github.com/${ props.username }.png`}
-            alt={`Foto do usuário ${ props.username }`}
+            src={`https://github.com/${ username }.png`}
+            alt={`Foto do usuário ${ username }`}
+            priority="false"
             objectFit="contain" 
+            quality={70}
             className={styles.image}
           />
-          <p>{ props.username }</p>
+          <p>{ username }</p>
         </div>
 
      
