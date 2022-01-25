@@ -1,7 +1,7 @@
 # Aluracord
 <table>
   <tr>
-    <td><img src="https://github.com/luiizsilverio/aluracord/blob/main/public/smith.jpg" /></td>
+    <td><img src="https://github.com/luiizsilverio/aluracord/blob/main/public/smith.jpg" style="width: 100px" /></td>    
     <td><h1>Aluracord</h1></td>
   </tr>
 </table>
