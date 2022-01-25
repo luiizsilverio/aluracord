@@ -1,0 +1,127 @@
+@import '../../styles/theme.scss';
+
+@keyframes descer {
+    from { 
+      transform: translateY(-100px); 
+      opacity: 0.2;
+    }
+    to { 
+      transform: translateY(0); 
+      opacity: 1;
+    }
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto 200px;
+  column-gap: 24px;
+  
+  width: min(80%, 600px);
+  min-height: 300px;
+  border-top-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 0 2px 4px rgba(87, 174, 91, 0.7);
+  background-image: linear-gradient(to bottom right, $--neutrals-700, $--neutrals-800);
+  
+  animation: descer 0.5s ease-in;
+
+  
+  @media (max-width: 650px) {
+    display: flex;
+    flex-direction: column;
+
+    .img_container {
+      display: none;
+    }
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $--neutrals-800;
+  border-radius: 8px;
+  padding: 20px;
+
+  h1 {
+    color: $--neutrals-000;
+    font-size: 24px;
+    font-weight: 600;    
+    line-height: 48px;
+  }
+  
+  p {
+    margin-bottom: 32px;
+    color: $--neutrals-300;
+  }
+
+  form {
+    display: flex;
+    width: 80%;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 32px;
+    
+    input {
+      width: 100%;
+      padding: 8px;
+      background-color: $--neutrals-900;
+      border-radius: 8px;
+      border: 1px solid $--neutrals-999;
+      color: $--neutrals-050;
+
+      &:focus {
+        outline: 2px solid $--primary-500;
+      }
+    }
+
+    button {
+      width: 100%;
+      margin-top: 16px;
+      border-radius: 8px;
+      padding: 8px;
+      border: none;
+      background-color: $--primary-500;
+      color: $--neutrals-000;
+      transition: 0.2s;
+
+      &:hover {
+        filter: brightness(1.2);
+      }
+
+      &:active {
+        transform: scaleY(1.12);
+        // filter: brightness(1.5);
+      }
+    }
+  }
+}
+
+.img_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $--neutrals-800;
+  border: 1px solid $--neutrals-900;
+  border-radius: 8px;
+  padding: 16px;
+
+  .image {
+    border-radius: 50%;
+  }
+
+  p {
+    color: $--neutrals-200;
+    font-size: 12px;
+    background-color: $--neutrals-999;
+    padding: 4px 8px;
+    border-radius: 12px;
+  }
+}
