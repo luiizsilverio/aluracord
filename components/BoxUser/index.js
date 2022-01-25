@@ -1,17 +1,26 @@
 import { useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 import styles from './styles.module.scss'
 
 export default function BoxUser(props) {
   const [username, setUsername] = useState(props.username)
+  const router = useRouter()
+
+  function handleSubmit(ev) {
+    ev.preventDefault()
+    router.push('/chat')
+    // window.location.href = '/chat'
+  }
+
   return (
     <>
       <div className={styles.container}>
         <div className={styles.content}>
           <h1>{ props.title }</h1>
           <p>{ props.subtitle }</p>
-          <form>
+          <form onSubmit={(e) => handleSubmit(e)}>
             <input type="text" 
               autoCorrect="false"
               autoComplete="false"
@@ -29,14 +38,18 @@ export default function BoxUser(props) {
         <div className={styles.img_container}>
           <Image
             width={192} height={192} 
-            src={`https://github.com/${ username }.png`}
+            src={ 
+              username.length > 3 
+                ? `https://github.com/${ username }.png`
+                : '/smith.jpg'
+            }
             alt={`Foto do usuário ${ username }`}
-            priority="false"
             objectFit="contain" 
             quality={70}
+            priority="false"
             className={styles.image}
           />
-          <p>{ username }</p>
+          <p>{ username || "//" }</p>
         </div>
 
      

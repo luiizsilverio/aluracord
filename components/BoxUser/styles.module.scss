@@ -29,13 +29,11 @@
   background-image: linear-gradient(to bottom right, $--neutrals-700, $--neutrals-800);
   
   animation: descer 0.5s ease-in;
-
   
   @media (max-width: 650px) {
     display: flex;
     flex-direction: column;
     row-gap: 8px;
-
   }
 }
 
