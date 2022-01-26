@@ -10,8 +10,7 @@ export default function BoxUser(props) {
 
   function handleSubmit(ev) {
     ev.preventDefault()
-    router.push('/chat')
-    // window.location.href = '/chat'
+    router.push({ pathname: '/chat', query: { username: username }})
   }
 
   return (
@@ -50,9 +49,7 @@ export default function BoxUser(props) {
             className={styles.image}
           />
           <p>{ username || "//" }</p>
-        </div>
-
-     
+        </div>     
       </div>
     </>
   )
