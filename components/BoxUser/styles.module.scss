@@ -1,19 +1,5 @@
 @import '../../styles/theme.scss';
-
-@keyframes descer {
-    from { 
-      
-      transform: translateY(-100px); 
-      opacity: 0.2;
-      box-shadow: 0 0 10px 20px rgba(87, 174, 91, 0.7);
-
-    }
-    to { 
-      transform: translateY(0); 
-      opacity: 1;
-      box-shadow: 0 0 2px 4px rgba(87, 174, 91, 0.7);
-    }
-}
+@import '../../styles/keyframes.scss';
 
 .container {
   display: grid;

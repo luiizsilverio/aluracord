@@ -35,6 +35,7 @@ export default function BoxUser(props) {
         </div>
 
         <div className={styles.img_container}>
+          <a href={`https://github.com/${ username }`}>
           <Image
             width={192} height={192} 
             src={ 
@@ -48,6 +49,7 @@ export default function BoxUser(props) {
             priority="false"
             className={styles.image}
           />
+          </a>
           <p>{ username || "//" }</p>
         </div>     
       </div>

@@ -1,14 +1,18 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 import { createClient } from '@supabase/supabase-js'
+import Image from 'next/image'
+import Modal from 'react-modal'
 
 import styles from '../styles/chat.module.scss'
+import BoxProfile from '../components/BoxProfile'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
+
+Modal.setAppElement('#__next')
 
 export default function Chat() {
   const router = useRouter()
@@ -16,6 +20,8 @@ export default function Chat() {
   const [mensagem, setMensagem] = useState('');
   const [listaDeMensagens, setListaDeMensagens] = useState([]);
   const listaRef = useRef(null)
+  const [showProfile, setShowProfile] = useState(false)
+  const [selectedUser, setSelectedUser] = useState("")
 
   useEffect(() => {
     supabase.from('mensagens')
@@ -23,7 +29,6 @@ export default function Chat() {
       .order('id', { ascending: false })
       .then((response) => {
         const lista = []
-        console.log(response.data)
         response.data.map((data) => {
           lista.push({
             id: data.id,
@@ -34,16 +39,11 @@ export default function Chat() {
         })
         setListaDeMensagens(lista)
       })
+
+    setSelectedUser(username)
   }, [])
 
   function handleNovaMensagem(novaMensagem) {
-    // const mensagem = {
-    //     id: listaDeMensagens.length + 1,
-    //     de: username,
-    //     texto: novaMensagem,
-    //     data: new Date()
-    // };
-    
     supabase.from('mensagens')
       .insert([
         {
@@ -77,10 +77,21 @@ export default function Chat() {
   }, [listaDeMensagens])
 
   return (
-    <div className={styles.content}>
+  <>
+    <Modal isOpen={ showProfile } 
+      overlayClassName="react-modal-overlay"
+      className="react-modal-content"
+      >
+      <BoxProfile 
+        username={selectedUser} 
+        onClose={() => setShowProfile(false)}
+      />
+    </Modal>
+
+    <div className={styles.content}>     
       <header className={styles.header}>
         <h2>Chat</h2>
-        <a href="#">Logout</a>
+        <a href="/">Logout</a>
       </header>
 
       <div className={styles.formContainer}>
@@ -89,12 +100,18 @@ export default function Chat() {
           { 
             listaDeMensagens.map((mensagem) => (
               <li key={ mensagem.id }>
-                <div>
-                  <Image
-                    width={20} height={20} 
-                    src={`https://github.com/${ mensagem.de }.png`}
-                    className={ styles.image }
-                  />
+                <div className={ styles.itemLista }>
+                  <div>
+                    <Image
+                      width={20} height={20} 
+                      src={`https://github.com/${ mensagem.de }.png`}
+                      className={ styles.image }
+                      onClick={() => {
+                        setSelectedUser(mensagem.de)
+                        setShowProfile(true)
+                      }}
+                    />
+                  </div>
                   
                   <strong>
                     { mensagem.de }
@@ -112,7 +129,6 @@ export default function Chat() {
           </ul>
         </div>
         
-
         <form>
           <textarea 
             placeholder='Digite sua mensagem aqui...'
@@ -120,14 +136,24 @@ export default function Chat() {
             wrap='true'
             onChange={(event) => setMensagem(event.target.value)}
             onKeyPress={(event) => {
-                if (event.key === 'Enter') {
-                    event.preventDefault();
-                    handleNovaMensagem(mensagem);
-                }
-            }}
+              if (event.key === 'Enter' && mensagem.trim()) {
+                event.preventDefault();
+                handleNovaMensagem(mensagem);
+              }
+            }}            
           />
+
+          <button type="button" onClick={(event) => {
+            // event.preventDefault();
+            if (mensagem.trim()) {
+              handleNovaMensagem(mensagem);
+            }
+          }}>
+            Enviar
+          </button>
         </form>
       </div>          
     </div>   
+  </>
   )
 }

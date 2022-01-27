@@ -1,23 +1,5 @@
 @import './theme.scss';
-
-@keyframes crescer {
-  0% {
-    transform: scale(.7);
-    opacity: 0.5;
-  }
-  50% {
-    transform: scale(.8);
-    opacity: 0.5;
-  }
-  75% {
-    transform: scale(.9);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
+@import './keyframes.scss';
 
 .header {
   display: flex;
@@ -67,8 +49,32 @@
   border-radius: 16px;
 
   form {
+    display: flex;
     justify-self: bottom;
+    flex-direction: row;
     padding: 16px;
+
+    button {
+      background-color: $--primary-200;
+      border: none;
+      cursor: pointer;
+      padding: 0 6px;
+      margin: 8px 0;
+      border-radius: 4px;
+      font-size: 12px;
+      color: $--neutrals-900;
+      display: none;
+
+      &:hover {
+        filter: brightness(1.2);
+      }
+    }
+
+    @media(max-width: 500px) {
+      button {
+        display: initial;
+      }
+    }
   }
   
   textarea {
@@ -129,28 +135,41 @@
 
     &:hover {
       background-color: $--neutrals-700;
-    }
+    }    
+  }
+}
 
-    > div {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
-      row-gap: 8px;
+.itemLista {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  row-gap: 8px;
+  position: relative;
 
-      strong {
-        margin: 0 6px;
-        font-size: 14px;
-        color: $--neutrals-050;
-      }
+  strong {
+    margin: 0 6px;
+    font-size: 14px;
+    color: $--neutrals-050;
+  }
 
-      span {
-        font-size: 10px;
-        color: $--neutrals-300;
-      }
+  span {
+    font-size: 10px;
+    color: $--neutrals-300;
+  }
+
+  > div:first-child {
+    width: 20px;
+    height: 20px;  
+    position: relative;
+
+    &:hover {
+      transform: scale(1.2);
     }
   }
 }
 
 .image {  
   border-radius: 25%;
+  
+
 }
