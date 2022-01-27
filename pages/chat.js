@@ -1,8 +1,14 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import { createClient } from '@supabase/supabase-js'
 
 import styles from '../styles/chat.module.scss'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
 
 export default function Chat() {
   const router = useRouter()
@@ -11,17 +17,54 @@ export default function Chat() {
   const [listaDeMensagens, setListaDeMensagens] = useState([]);
   const listaRef = useRef(null)
 
+  useEffect(() => {
+    supabase.from('mensagens')
+      .select('*')
+      .order('id', { ascending: false })
+      .then((response) => {
+        const lista = []
+        console.log(response.data)
+        response.data.map((data) => {
+          lista.push({
+            id: data.id,
+            de: data.from,
+            texto: data.message,
+            data: new Date(data.created_at)
+          })
+        })
+        setListaDeMensagens(lista)
+      })
+  }, [])
+
   function handleNovaMensagem(novaMensagem) {
-    const mensagem = {
-        id: listaDeMensagens.length + 1,
-        de: username,
-        texto: novaMensagem,
-    };
+    // const mensagem = {
+    //     id: listaDeMensagens.length + 1,
+    //     de: username,
+    //     texto: novaMensagem,
+    //     data: new Date()
+    // };
     
-    setListaDeMensagens([
-        mensagem,
-        ...listaDeMensagens,
-    ]);
+    supabase.from('mensagens')
+      .insert([
+        {
+          from: username,
+          message: novaMensagem
+        }
+      ])
+      .then(({ data }) => {
+        const mensagem = {
+          id: data[0].id,
+          de: data[0].from,
+          texto: data[0].message,
+          data: new Date(data[0].created_at)
+        }
+
+        setListaDeMensagens([
+            mensagem,
+            ...listaDeMensagens,
+        ]);
+      })
+
     setMensagem('');
   }
 
@@ -49,7 +92,7 @@ export default function Chat() {
                 <div>
                   <Image
                     width={20} height={20} 
-                    src={`https://github.com/${ username }.png`}
+                    src={`https://github.com/${ mensagem.de }.png`}
                     className={ styles.image }
                   />
                   
@@ -58,7 +101,7 @@ export default function Chat() {
                   </strong>
 
                   <span>
-                    { new Date().toLocaleDateString() }
+                    { mensagem.data.toLocaleString() }
                   </span>
                 </div>
 
@@ -74,6 +117,7 @@ export default function Chat() {
           <textarea 
             placeholder='Digite sua mensagem aqui...'
             value={mensagem}
+            wrap='true'
             onChange={(event) => setMensagem(event.target.value)}
             onKeyPress={(event) => {
                 if (event.key === 'Enter') {
@@ -86,31 +130,4 @@ export default function Chat() {
       </div>          
     </div>   
   )
-}
-
-function MessageList(props) {
-  return (
-    <>
-    { props.mensagens.map((mensagem) => {
-      <li key={ mensagem.id }>
-        <div>
-          <Image
-            width={20} height={20} 
-            src={`https://github.com/${ props.username }.png`}
-            className={styles.image}
-          />
-          
-          <strong>
-            { mensagem.de }
-          </strong>
-
-          <span>
-            { new Date().toLocaleDateString() }
-          </span>
-        </div>
-        { mensagem.texto }
-      </li>
-    })}
-   </>
-  )  
 }
