@@ -14,6 +14,21 @@ const supabase = createClient(
 
 Modal.setAppElement('#__next')
 
+function escutaMensagensEmTempoReal(adicionaMensagem) {
+  return supabase
+    .from('mensagens')
+    .on('INSERT', (response) => {
+      const mensagem = {
+          id: response.new.id,
+          de: response.new.from,
+          texto: response.new.message,
+          data: new Date(response.new.created_at)
+        }
+      adicionaMensagem(mensagem);
+    })
+    .subscribe();
+}
+
 export default function Chat() {
   const router = useRouter()
   const username = useMemo(() => router.query.username, [router.query])
@@ -41,6 +56,19 @@ export default function Chat() {
       })
 
     setSelectedUser(username)
+
+    const subscription = escutaMensagensEmTempoReal((newMessage) => {
+      setListaDeMensagens((prev) => {
+        return [
+          newMessage,
+          ...prev
+        ]
+      })
+    })    
+
+    return () => {
+      subscription.unsubscribe()
+    }
   }, [])
 
   function handleNovaMensagem(novaMensagem) {
@@ -52,21 +80,23 @@ export default function Chat() {
         }
       ])
       .then(({ data }) => {
-        const mensagem = {
-          id: data[0].id,
-          de: data[0].from,
-          texto: data[0].message,
-          data: new Date(data[0].created_at)
-        }
+        console.log('Criando nova mensagem')
+        // const mensagem = {
+        //   id: data[0].id,
+        //   de: data[0].from,
+        //   texto: data[0].message,
+        //   data: new Date(data[0].created_at)
+        // }
 
-        setListaDeMensagens([
-            mensagem,
-            ...listaDeMensagens,
-        ]);
+        // setListaDeMensagens([
+        //     mensagem,
+        //     ...listaDeMensagens,
+        // ]);
       })
 
     setMensagem('');
   }
+
 
   const scrollToBottom = () => {
     listaRef.current.scrollTop = listaRef.current.scrollHeight;
@@ -75,6 +105,7 @@ export default function Chat() {
   useEffect(() => {
     scrollToBottom()
   }, [listaDeMensagens])
+
 
   return (
   <>
