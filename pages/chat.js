@@ -164,7 +164,7 @@ export default function Chat() {
           <textarea 
             placeholder='Digite sua mensagem aqui...'
             value={mensagem}
-            wrap='true'
+            spellCheck="false"
             onChange={(event) => setMensagem(event.target.value)}
             onKeyPress={(event) => {
               if (event.key === 'Enter' && mensagem.trim()) {

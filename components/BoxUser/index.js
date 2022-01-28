@@ -23,6 +23,7 @@ export default function BoxUser(props) {
             <input type="text" 
               autoCorrect="false"
               autoComplete="false"
+              spellCheck="false"
               maxLength={20}
               autoFocus
               required
