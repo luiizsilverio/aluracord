@@ -15,17 +15,18 @@
 
 ## Sobre o projeto
 Aplicação desenvolvida em React / Next que emula o chat do Discord, utilizando CSS Modules, com SASS.<br />
+Utiliza a biblioteca __supabase-js__ para acessar e armazenar as mensagens em um banco de dados no [Supabase](https://supabase.com).<br />
 Desenvolvida durante a Imersão React 03, da Alura.
   
 ## :hammer_and_wrench: Tecnologias
-* <ins>Javascript</ins>
-* <ins>ReactJs</ins>
-* <ins>Next</ins>
-* <ins>Javascript</ins>
-* <ins>CSS Modules + Sass</ins>, para estilização
+* __Javascript__
+* __ReactJs__
+* __Next__
+* __Supabase-js__ para acessar o banco de dados do Supabase.
+* __CSS Modules + Sass__, para estilização
 
 ## :camera_flash: Screenshots
-![](https://github.com/luiizsilverio/aluracord/blob/main/public/screenshot.png)
+![](https://github.com/luiizsilverio/aluracord/blob/main/public/aluracord.gif)
 
 
 ## :car: Iniciando o projeto
