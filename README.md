@@ -14,9 +14,9 @@
 * [Contato](#email-contato)
 
 ## Sobre o projeto
-Aplicação desenvolvida em React / Next que emula o chat do Discord, utilizando CSS Modules, com SASS.<br />
-Utiliza a biblioteca __supabase-js__ para acessar e armazenar as mensagens em um banco de dados no [Supabase](https://supabase.com).<br />
-Desenvolvida durante a Imersão React 03, da Alura.
+Aplicação desenvolvida em React / Next que emula o chat do Discord.<br />
+Desenvolvida durante a Imersão React 03, da Alura, utiliza a biblioteca __supabase-js__, para acessar e armazenar as mensagens em um banco de dados no [Supabase](https://supabase.com).<br />
+Refiz totalmente as telas, que originalmente utilizavam a biblioteca skynexui. Preferi fazer tudo utilizando elementos "html" e CSS com SASS, além de algumas animações.<br />
   
 ## :hammer_and_wrench: Tecnologias
 * __Javascript__
